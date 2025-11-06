@@ -4,38 +4,43 @@ use strict;
 
 use feature 'say';
 
-# Script to generate annotation report.
+# Script to generate an annotation report.
+# This script extracts data from the various input files and puts together one
+# JSON file that is an input to typst, which does the PDF rendering.
 #
-# We assume a metadata file and an AGAT report file are provided
+# We assume a metadata file and an AGAT report file are provided.
+#
 # Example files are in this repo.
-# The metadata file is a placeholder. It will change when the actual metadata
-# schema + data are ready
 #
-# The AGAT file is not useable by the PDF renderer, we have to remove the header
-# line first.
-#
-# Futher analysis files, e.g. Busco, are TODO
+# The metadata file contents and format are tentative, since the schema is still
+# being worked on. It will likely change in the future.
 #
 # Requirements to run this are:
-# Perl
-# duckdb - duckdb.org
+# Perl plus the modules below.
 # typst - typst.app
+#
+# TODO: make Busco optional again. Right now, typst will not work if it's not
+# there
 
 use Getopt::Long;
 use JSON;
 use YAML::XS qw(LoadFile);
+use File::Slurp;
 
-my ($meta_file, $gff_file, $agat_file, $busco_file);
+
+my ($meta_file, $agat_file, $busco_file, $output_file);
 GetOptions(
     'm=s' => \$meta_file,
-    'g=s' => \$gff_file,     # TODO
     'a=s' => \$agat_file,
     'b=s' => \$busco_file,
+    'o=s' => \$output_file,
 ) or die_usage();
 
 sub die_usage {
-    die "Usage: $0 [-m metadata_file] [-g gff_file] [-a agat_file] [-b busco_file]";
+    die "Usage: $0 [-m metadata_file] [-a agat_file] [-b busco_file] [-o output_file]";
 }
+
+$output_file //= 'report.pdf';
 
 sub check_exit {
     return if $? == 0;
@@ -50,12 +55,16 @@ sub check_exit {
 
 die "Need metadata csv file" unless ($meta_file);
 
-my $json =
-  qx(duckdb -json -c 'select bioproject_name, bioproject_id, refseq_accession, asm_name, release_date, organism_id, tol_prefix  from dtol_metadata limit 1;' $meta_file);
-check_exit();
+my $metadata = decode_json(read_file($meta_file));
+my $report_data = {};
 
-my $metadata    = decode_json($json);
-my $report_data = $metadata->[0];
+
+foreach my $item (@$metadata) {
+    my $key = $item->{"meta_key"};
+    my $value = $item->{"meta_value"};
+    $report_data->{$key} = $value;
+}
+
 
 if ($agat_file) {
     my $agat_yaml = LoadFile($agat_file);
@@ -166,14 +175,12 @@ if ($busco_file) {
 my $json_encoder = JSON->new->pretty->canonical;
 my $output_json  = $json_encoder->encode([$report_data]);
 
-open(my $fh, '>', 'report_main.json') or die "Error opening file report_main.json: $!";
-print $fh $output_json;
-close($fh) or die "Error closing file report_main.json: $!";
+write_file('report_main.json', $output_json);
 
 say "Generated report_main.json with metadata and BUSCO data";
 
 # Compile PDF
-say qx(typst compile --input file=report_main.json report_template.typ report.pdf);
+say qx(typst compile --input file=report_main.json report_template.typ $output_file);
 check_exit();
 
-say "Build OK. PDF file is report.pdf";
+say qq{Build OK. JSON is ready in file: "report_main.json". PDF report is ready in file: "$output_file"};

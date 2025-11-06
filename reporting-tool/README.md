@@ -28,7 +28,7 @@ This tool is aimed at single researchers and small institutions.
 
 Currently, this is supposed to be run as a CLI tool.
 
-Assuming a Linux-like environment, make sure you have perl, duckdb and typst in your
+Assuming a Linux-like environment, make sure you have perl and typst in your
 path.
 
 git clone this repo, then from this directory, run:

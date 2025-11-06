@@ -30,13 +30,15 @@
 ])
 
 
-The #text(fill: rgb("#009f4c"))[{species_name}] genome assembly #text(fill: rgb("#009f4c"))[#rep.refseq_accession] was annotated by
-#text(fill: rgb("#009f4c"))[{facility/organisation/contact}]. This annotation includes #text(fill: rgb("#009f4c"))[#rep.agat.transcript_count]
-transcribed mRNAs from #text(fill: rgb("#009f4c"))[#rep.agat.gene_count] genes. The average transcript length is
-#text(fill: rgb("#009f4c"))[#rep.agat.mean_transcript_length] bp, with an average of
-#text(fill: rgb("#009f4c"))[#rep.agat.mean_transcripts_per_gene] coding transcripts per gene and
-#text(fill: rgb("#009f4c"))[#rep.agat.mean_exons_per_transcript] exons per transcript. The annotation file is
-available at #text(fill: rgb("#009f4c"))[{url}].
+The #text(fill: rgb("#009f4c"))[#rep.scientific_name]
+genome assembly #text(fill: rgb("#009f4c"))[#rep.assembly_accession]
+was annotated by #text(fill: rgb("#009f4c"))[#rep.email (#rep.contact_external_ref)].
+This annotation includes #text(fill: rgb("#009f4c"))[#rep.agat.transcript_count]
+transcribed mRNAs from #text(fill: rgb("#009f4c"))[#rep.agat.gene_count] genes.
+The average transcript length is #text(fill: rgb("#009f4c"))[#rep.agat.mean_transcript_length] bp,
+with an average of #text(fill: rgb("#009f4c"))[#rep.agat.mean_transcripts_per_gene]
+coding transcripts per gene and #text(fill: rgb("#009f4c"))[#rep.agat.mean_exons_per_transcript]
+exons per transcript. The annotation file is available at #text(fill: rgb("#009f4c"))[#rep.annotation_file_name].
 
 #v(1em)
 
@@ -68,10 +70,35 @@ available at #text(fill: rgb("#009f4c"))[{url}].
 
 #table(
   columns: 2,
-  [*Taxon ID*],      [{taxon_id}],
-  [*Species name*],      [{species_name}],
-  [*ToL prefix*],       [#rep.tol_prefix],
-  [*Assembly accession*], [#rep.refseq_accession],
+  stroke: none,
+[*Project external reference:*], [#rep.project_external_ref],
+[*Project name:*], [#rep.project_name],
+[*Name:*], [#rep.name],
+[*Contact external reference:*], [#rep.contact_external_ref],
+[*Contact email:*], [#rep.email],
+[*Experiment external ID:*], [#rep.experiment_external_id],
+[*Analysis tool, version:*], [#rep.analysis_tool_with_version],
+[*Analysis protocol:*], [#rep.analysis_protocol],
+[*Repeat masking:*], [#rep.repeat_masking],
+[*Annotation file label:*], [#rep.annotation_file_label],
+[*Annotation file name:*], [#rep.annotation_file_name],
+[*Annotation file type:*], [#rep.annotation_file_type],
+[*Checksum:*], [#rep.checksum],
+[*Assembly accession:*], [#rep.assembly_accession],
+[*Aliases:*], [#rep.aliases],
+[*Assessment method:*], [#rep.assessment_method],
+[*Assessment values:*], [#rep.assessment_values],
+[*Assessment details URL:*], [#rep.assessment_details_url],
+[*Busco version protein:*], [#rep.busco_version_protein],
+[*Busco string proteome:*], [#rep.busco_string_proteome],
+[*Lineage ID:*], [#rep.lineage_id],
+[*OMArk version:*], [#rep.omark_version],
+[*OMArk completeness:*], [#rep.omark_completeness],
+[*Sample external ID:*], [#rep.sample_external_id],
+[*Taxon ID:*], [#rep.taxon_id],
+[*Scientific name:*], [#rep.scientific_name],
+[*Extrinsic protein evidence:*], [#rep.extrinsic_protein_evidence],
+[*Annotation reference:*], [#rep.annotation_ref]
 )
 
 #v(1em)
