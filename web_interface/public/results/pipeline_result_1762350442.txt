@@ -1,0 +1,15 @@
+Mock pipeline run
+=================
+Species: 
+
+Inputs:
+  GFF input: C:\Users\Qussa\Documents\Local_vscode\Annotation_metadata\storage\app/uploads/y6qAbRpOhVCUO59qMiVqETolkYPKFtbxFWF24szL.txt
+  GFF feature rows: (file not found or unreadable)
+  Metadata input: C:\Users\Qussa\Documents\Local_vscode\Annotation_metadata\storage\app/uploads/PC4AQ9QZUv0Y1kTTsBFcCELZvJ8oeOE5eaBYpCkw
+
+Headers:
+  BUSCO header: (none)
+  OMArk header: (none)
+
+Notes:
+  This is a mock pipeline output. Replace pipeline.pl with real pipeline logic when ready.
