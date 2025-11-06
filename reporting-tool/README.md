@@ -12,7 +12,7 @@ This tool is aimed at single researchers and small institutions.
     
 -   Additionally, should be usable as a command line tool
     
--   Tool should take annotation metadata CSV as primary input
+-   Tool should take annotation metadata CSV / JSON as primary input
     
 -   On top it can accept AGAT output
     
@@ -33,11 +33,33 @@ path.
 
 git clone this repo, then from this directory, run:
 
-    reporter.pl -m dtol_metadata.csv
+    reporter.pl -m metadata.json -a agat.yml -b busco.json
 
 This should produce a report.pdf output file.
+
+# How to run with Docker
+
+Build the Docker file from the git root directory like this:
+
+    docker build --tag=reporter .
+
+Then you run it like this. It will pick up files from the current directory and
+also write output to the current directory.
+
+    docker run --rm --volume "$(pwd):/data" --user $(id -u):$(id -g) reporter -m metadata.json -a agat.yaml -b busco_short_summary.json
+
+You can make this nicer to run like this:
+
+    alias reporter='docker run --rm --volume "$(pwd):/data" --user $(id -u):$(id -g) reporter'
+
+Now you would run it like this:
+
+    reporter -m metadata.json -a agat.yaml -b busco_short_summary.json
+
 
 # TODO
 
 - Notes on how to run the tools to produce the right output in the right format.
     AGAT, Busco, etc.
+    We assume that this repo will have a pipeline (e.g. nextflow) in the future
+    to provide this.
